@@ -7,6 +7,8 @@
  ┣ 📂flask서버    
  ┃ ┣ 📜app.py    
  ┃ ┣ 📜wsgi.py   
+ ┃ ┣ 📜config.py   
+ ┃ ┣ 📜requirements.txt   
  ┃ ┗ 📜Dockerfile    
  ┣ 📂nginx   
  ┃ ┣ 📜nginx.conf   
