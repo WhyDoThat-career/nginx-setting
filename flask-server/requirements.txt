@@ -1,0 +1,8 @@
+flask
+Flask-BabelEx
+flask-cors
+flask-login
+sqlalchemy==1.3.23
+flask-sqlalchemy
+sqlalchemy_utils
+gunicorn

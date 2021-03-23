@@ -1,13 +1,13 @@
 version: "3" # 파일 규격 버전
 services: # 이 항목 밑에 실행하려는 컨테이너 들을 정의
   flask :
-    build: ~/career-flask-server
+    build: ~/flask-server
     container_name: flask-keyog
     restart : always
     ports :
       - "8000:8000"
     volumes :
-      - ~/career-flask-server:/opt
+      - ~/flask-server:/opt
     command: gunicorn -w 1 -b 0.0.0.0:8000 wsgi:app
   nginx:
     build: ~/nginx
