@@ -1,14 +1,21 @@
 version: "3" # 파일 규격 버전
 services: # 이 항목 밑에 실행하려는 컨테이너 들을 정의
   flask :
-    build: ~/flask-server
+    build: ~/career-flask-server
     container_name: flask-keyog
     restart : always
     ports :
       - "8000:8000"
+      - "9092:9092"
     volumes :
-      - ~/flask-server:/opt
-    command: gunicorn -w 1 -b 0.0.0.0:8000 wsgi:app
+      - ~/career-flask-server:/opt
+    command: gunicorn -w 1 -b 0.0.0.0:8000 --log-level info wsgi:app
+    depends_on: 
+      - db
+      - mongo
+    environment:
+      TZ: "Asia/Seoul"
+
   nginx:
     build: ~/nginx
     container_name: nginx
@@ -17,6 +24,8 @@ services: # 이 항목 밑에 실행하려는 컨테이너 들을 정의
       - "80:80"
     depends_on: 
       - flask
+    environment:
+      TZ: "Asia/Seoul"
 
   db: # 서비스 명
     image: mysql:5.7.30 # 사용할 이미지
@@ -25,12 +34,14 @@ services: # 이 항목 밑에 실행하려는 컨테이너 들을 정의
     ports:
       - "3306:3306" # 접근 포트 설정 (컨테이너 외부:컨테이너 내부)
     environment: # -e 옵션
-      MYSQL_ROOT_PASSWORD: "root"  # MYSQL 패스워드 설정 옵션
+      MYSQL_ROOT_PASSWORD: "wdt210309"  # MYSQL 패스워드 설정 옵션
+      TZ: "Asia/Seoul"
     command: # 명령어 실행
       - --character-set-server=utf8mb4
       - --collation-server=utf8mb4_unicode_ci
     volumes:
       - ~/database:/var/lib/mysql # -v 옵션 (다렉토리 마운트 설정)
+
   mongo:
     image: mongo
     container_name: mongo-keyog
@@ -43,4 +54,3 @@ services: # 이 항목 밑에 실행하려는 컨테이너 들을 정의
       TZ: "Asia/Seoul"
     volumes:
       - ~/mongodb:/data/db
-
